@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    networks:
+      - assessment
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+  redis:
+    image: redis:alpine
+    networks:
+      - assessment
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    networks:
+      - assessment
+  
+networks:
+  assessment:
+    driver: bridge
